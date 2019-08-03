@@ -94,7 +94,7 @@ public class ListServlet extends HttpServlet {
     writer.append("</table>");
     writer.append("<br><br>");
     writer.append(
-        "<a href=\"http://localhost:9070/newuser.jsp\"><input type=\"submit\" value = \"Nowy User\"></a>");
+        "<a href=\"http://localhost:9070/newuser\"><input type=\"submit\" value = \"Nowy User\"></a>");
     writer.append("</body>");
 
     writer.append("</html>");

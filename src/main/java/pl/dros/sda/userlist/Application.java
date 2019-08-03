@@ -12,19 +12,17 @@ import java.io.File;
 
 public class Application {
 
-    public static void main(String[] args)
-            throws ServletException, LifecycleException {
-        Tomcat tomcat = new Tomcat();
-        tomcat.setPort(9070);
-        Context context = tomcat.addWebapp("",
-                new File("src/main/webapp/").getAbsolutePath());
-        String classesPath = new File("target/classes").getAbsolutePath();
-        WebResourceRoot resources = new StandardRoot(context);
-        DirResourceSet resourceSet = new DirResourceSet(resources,
-                "/WEB-INF/classes", classesPath, "/");
-        resources.addPreResources(resourceSet);
-        context.setResources(resources);
-        tomcat.start();
-        tomcat.getServer().await();
-    }
+  public static void main(String[] args) throws ServletException, LifecycleException {
+    Tomcat tomcat = new Tomcat();
+    tomcat.setPort(9070);
+    Context context = tomcat.addWebapp("", new File("src/main/webapp/").getAbsolutePath());
+    String classesPath = new File("target/classes").getAbsolutePath();
+    WebResourceRoot resources = new StandardRoot(context);
+    DirResourceSet resourceSet =
+        new DirResourceSet(resources, "/WEB-INF/classes", classesPath, "/");
+    resources.addPreResources(resourceSet);
+    context.setResources(resources);
+    tomcat.start();
+    tomcat.getServer().await();
+  }
 }

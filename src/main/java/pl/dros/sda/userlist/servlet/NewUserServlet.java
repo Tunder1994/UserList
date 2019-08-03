@@ -26,33 +26,32 @@ public class NewUserServlet extends HttpServlet {
     String login = req.getParameter("login");
     String password1 = req.getParameter("password1");
     String password2 = req.getParameter("password2");
-    String error = "/newuser.jsp?";
-    int count = 0;
+    boolean error = false;
 
     if (!email.matches(EMAILREGEX)) {
-      error += "invalidemail=true";
-      count++;
+      req.setAttribute("invalidMail", "Błędny email");
+      error = true;
     }
     if (!password1.matches(PASSREGEX)) {
-      if (count > 0) {
-        error += "&";
-      }
-      error += "wrongpassword=true";
-      count++;
+      req.setAttribute("invalidPassword", "Hasło nie spełnia wymogów!");
+      error = true;
     }
     if (!password1.equals(password2)) {
-      if (count > 0) {
-        error += "&";
-      }
-      error += "invalidpasswords=true";
-      count++;
+      req.setAttribute("errorPassword", "Hasła muszą być takie same!");
+      error = true;
     }
-    if (count > 0) {
-      resp.sendRedirect(error);
+    if (error) {
+      req.getRequestDispatcher("/newuser.jsp").forward(req, resp);
     } else {
       repository.save(
           User.builder().userName(userName).eMail(email).login(login).password(password1).build());
       resp.sendRedirect("/list");
     }
+  }
+
+  @Override
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
+    req.getRequestDispatcher("/newuser.jsp").forward(req, resp);
   }
 }
